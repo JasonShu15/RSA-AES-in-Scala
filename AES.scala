@@ -8,7 +8,7 @@ object AesEncryption{
         negative = true  
       }  
       val inte = Math.abs(b)  
-      val temp = Integer.toHexString(inte & 0xFF)  
+      val temp = Integer.toHexString(inte & 0xFF) //显示一个byte型的单字节十六进制(两位十六进制表示)的编码
       if (temp.length() == 1) {  
         hex.append("0")  
       }  
@@ -20,22 +20,22 @@ object AesEncryption{
   @throws(classOf[Exception])  
   //生成密钥
   def genKeyAES(): String = {  
-    val keyGen = KeyGenerator.getInstance("AES") 
+    val keyGen = KeyGenerator.getInstance("AES") // 返回生成指定算法的密钥
     keyGen.init(128)  
     val key = keyGen.generateKey()  
-    val base64Str = Base64.getEncoder.encodeToString(key.getEncoded())  
+    val base64Str = Base64.getEncoder.encodeToString(key.getEncoded()) //实现Base64编码
     base64Str  
   }  
   //导入密钥
   def loadKeyAES(base64Key: String): SecretKey = {  
     val bytes = Base64.getDecoder.decode(base64Key)  
-    val key = new SecretKeySpec(bytes,"AES")  
+    val key = new SecretKeySpec(bytes,"AES")//创建密钥空间
     return key  
   } 
   //定义加密方法
   def encrytAES(file: String, key: SecretKey): Array[Byte] = {  
     val cipher = Cipher.getInstance("AES")  
-    cipher.init(Cipher.ENCRYPT_MODE, key)    
+    cipher.init(Cipher.ENCRYPT_MODE, key)//初始化Cipher对象
     val encryptBytes=Source.fromFile(file).mkString.getBytes  
     cipher.doFinal(encryptBytes)  
   }  
